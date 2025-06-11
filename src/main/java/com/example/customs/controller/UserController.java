@@ -1,7 +1,6 @@
 package com.example.customs.controller;
 
 import com.example.customs.dto.UserDTO;
-import com.example.customs.entity.User;
 import com.example.customs.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> register(@Valid @RequestBody UserDTO dto) {
-        User saved = userService.register(dto);
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody UserDTO dto) {
+        UserDTO saved = userService.register(dto);
         return ResponseEntity.ok(saved);
     }
 }

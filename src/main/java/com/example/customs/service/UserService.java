@@ -2,6 +2,7 @@ package com.example.customs.service;
 
 import com.example.customs.dto.UserDTO;
 import com.example.customs.entity.User;
+import com.example.customs.mapper.UserMapper;
 import com.example.customs.repository.UserRepository;
 import com.example.customs.util.UnpValidator;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final VerificationService verificationService;
+    private final UserMapper userMapper; // 💡 подключили маппер
 
-    public User register(UserDTO dto) {
+
+    public UserDTO register(UserDTO dto) {
         log.info("Попытка регистрации участника с УНП: {}", dto.getUnp());
 
         if (!UnpValidator.isValid(dto.getUnp())) {
@@ -31,13 +34,10 @@ public class UserService {
 
         boolean isVerified = verificationService.verifyUNP(dto.getUnp());
 
-        User user = User.builder()
-                .name(dto.getName())
-                .unp(dto.getUnp())
-                .email(dto.getEmail())
-                .activityType(dto.getActivityType())
-                .verified(isVerified)
-                .build();
-        return userRepository.save(user);
+        User user = userMapper.toEntity(dto);
+        user.setVerified(isVerified);
+        User savedUser = userRepository.save(user);
+
+        return userMapper.toDto(savedUser);
     }
 }
