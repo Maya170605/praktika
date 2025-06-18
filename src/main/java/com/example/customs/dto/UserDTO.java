@@ -12,7 +12,7 @@ public class UserDTO {
     private String name;
 
     @NotBlank(message = "УНП обязателен")
-    @Pattern(regexp = "\\d{9}", message = "Ровно 9 цифр")
+    @Pattern(regexp = "^\\d{9}$", message = "Ровно 9 цифр")
     private String unp;
 
     @Email(message = "Неверный тип email")
