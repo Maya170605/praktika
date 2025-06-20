@@ -9,7 +9,8 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "users")
-public class User extends Auditable{
+public class User extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -18,9 +19,12 @@ public class User extends Auditable{
     @Column(name = "user_name", nullable = false)
     private String name;
 
-    @Column(unique = true)
-    private String unp;
+    @ManyToOne
+    @JoinColumn(name = "unp")
+    private Unp unp;
 
+
+    @Column
     private String email;
 
     @Column(name = "activity_type")
@@ -28,5 +32,6 @@ public class User extends Auditable{
 
     private boolean verified;
 }
+
 
 
