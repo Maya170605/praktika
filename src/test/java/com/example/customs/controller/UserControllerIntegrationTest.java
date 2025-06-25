@@ -40,6 +40,7 @@ class UserControllerIntegrationTest {
     void setUp() {
         userRepository.deleteAll();
         unpRepository.deleteAll();
+
         unpRepository.save(Unp.builder().unp(VALID_UNP).build());
         unpRepository.save(Unp.builder().unp("987654321").build());
     }
@@ -47,31 +48,34 @@ class UserControllerIntegrationTest {
     @Test
     @Order(1)
     void shouldRegisterUserSuccessfully() throws Exception {
-        UserDTO dto = new UserDTO("Компания А", VALID_UNP, "a@example.com", "Логистика");
+        UserDTO dto = new UserDTO("БелТранс", VALID_UNP, "transport@example.com", "Логистика");
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.unp").value(VALID_UNP))
-                .andExpect(jsonPath("$.name").value("Компания А"))
-                .andExpect(jsonPath("$.email").value("a@example.com"))
+                .andExpect(jsonPath("$.name").value("БелТранс"))
+                .andExpect(jsonPath("$.email").value("transport@example.com"))
                 .andExpect(jsonPath("$.activityType").value("Логистика"));
     }
 
     @Test
     @Order(2)
     void shouldFailIfUserWithSameUNPExists() throws Exception {
-        Unp unp = unpRepository.findByUnp("111111111").orElseThrow();
+        // Добавляем UNP, который будет использоваться в тесте
+        Unp unp = unpRepository.save(Unp.builder().unp("333333336").build());
+
+        // Создаем пользователя с этим UNP
         userRepository.save(User.builder()
-                .name("Компания Б")
+                .name("БелСинТерм")
                 .unp(unp)
-                .email("b@example.com")
+                .email("sin@example.com")
                 .activityType("Экспорт")
                 .verified(true)
                 .build());
 
-        UserDTO dto = new UserDTO("Компания Б", "111111111", "b@example.com", "Экспорт");
+        UserDTO dto = new UserDTO("БелСинТерм", "333333336", "sin@example.com", "Экспорт");
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -83,7 +87,7 @@ class UserControllerIntegrationTest {
     @Test
     @Order(3)
     void shouldRejectInvalidUNPFormat() throws Exception {
-        UserDTO dto = new UserDTO("Компания С", "abc", "c@example.com", "Импорт");
+        UserDTO dto = new UserDTO("Таможня", "abc", "tamozh@example.com", "Импорт");
 
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)

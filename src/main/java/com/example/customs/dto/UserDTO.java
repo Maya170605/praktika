@@ -3,6 +3,7 @@ package com.example.customs.dto;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

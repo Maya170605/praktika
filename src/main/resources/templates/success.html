@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Успех</title>
+    <style>
+        body {
+            background-color: #696969;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .success-container {
+            width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: #505050;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .success-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .success-container a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF1493;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .success-container a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<div class="success-container">
+    <h2>Регистрация прошла успешно!</h2>
+    <a th:href="@{/register}">Зарегистрировать ещё</a>
+</div>
+</body>
+</html>
+

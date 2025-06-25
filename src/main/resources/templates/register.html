@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Регистрация</title>
+    <style>
+        body {
+            background-color: #696969;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: 0 auto; /* центрирование по горизонтали */
+            padding: 20px;
+            background-color: #505050;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .form-container h1 {
+            text-align: center;
+        }
+
+        .form-container label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FF1493;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #FF1493;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Регистрация пользователя</h1>
+    <form th:action="@{/register}" th:object="${user}" method="post">
+        <label>Название компании:</label>
+        <input type="text" th:field="*{name}" />
+
+        <label>УНП:</label>
+        <input type="text" th:field="*{unp}" />
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" />
+
+        <label>Вид активности:</label>
+        <input type="text" th:field="*{activityType}" />
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+</div>
+</body>
+</html>
